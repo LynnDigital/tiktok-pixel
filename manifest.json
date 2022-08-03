@@ -1,0 +1,8 @@
+{
+  "name": "MC TikTok Pixel",
+  "namespace": "mc-tiktok-pixel",
+  "description": "TikTok Pixel",
+  "icon": "assets/icon.svg",
+  "allowCustomFields": true,
+  "permissions": {}
+}
