@@ -2,13 +2,13 @@ import { MCEvent } from '@managed-components/types'
 import { getRequestBody } from './track'
 
 const EVENT_NAMES_MAP: { [k: string]: string } = {
-  'Order Completed': 'PlaceAnOrder', // done
-  'Product Added': 'AddToCart', // done
-  'Products Searched': 'Search', // done
+  'Order Completed': 'PlaceAnOrder',
+  'Product Added': 'AddToCart',
+  'Products Searched': 'Search',
   'Checkout Started': 'InitiateCheckout',
   'Payment Info Entered': 'AddPaymentInfo',
-  'Product Added to Wishlist': 'AddToWishlist', // done
-  'Product Viewed': 'ViewContent', // done
+  'Product Added to Wishlist': 'AddToWishlist',
+  'Product Viewed': 'ViewContent',
 }
 
 const getContentIdsWithQuantityAndPrice = (payload: any) => {

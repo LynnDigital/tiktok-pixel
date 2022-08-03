@@ -28,7 +28,6 @@ const getRequestBody = (event: MCEvent) => {
   const { client } = event
 
   const body: { [k: string]: any } = {
-    event: '',
     context: {
       ad: {
         callback: undefined,
@@ -41,8 +40,8 @@ const getRequestBody = (event: MCEvent) => {
       },
       user: {
         external_id: client.get('external_id'),
-        phone_number: client.get('phone_number'),
-        email: client.get('email'),
+        phone_number: client.get('ph'),
+        email: client.get('em'),
         ttp: getTtp(event),
       },
     },
