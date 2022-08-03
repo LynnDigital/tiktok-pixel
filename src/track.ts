@@ -6,7 +6,7 @@ const getClickId = (event: MCEvent) => {
   let ttclid = client.get('tk-click') || ''
 
   if (client.url.searchParams?.has('ttclid')) {
-    ttclid = client.url.searchParams.get('ttclid') || ''
+    ttclid = String(client.url.searchParams.get('ttclid'))
     client.set('tk-click', ttclid)
   }
   return ttclid
