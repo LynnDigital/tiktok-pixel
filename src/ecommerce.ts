@@ -51,7 +51,7 @@ const mapEcommerceData = (event: MCEvent) => {
     properties.query = payload.query
   }
 
-  if (event.name === 'Product Added') {
+  if (event.name && ['Product Added', 'Order Completed'].includes(event.name)) {
     properties.contents = getContentIdsWithQuantityAndPrice(payload).map(
       item => {
         return {
@@ -66,9 +66,7 @@ const mapEcommerceData = (event: MCEvent) => {
 
   if (
     event.name &&
-    ['Product Viewed', 'Product Added to Wishlist', 'Order Completed'].includes(
-      event.name
-    )
+    ['Product Viewed', 'Product Added to Wishlist'].includes(event.name)
   ) {
     properties.contents = getContentIds(payload).map(id => {
       return {
