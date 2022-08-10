@@ -12,6 +12,7 @@ const sendEvent = async (payload: any, settings: ComponentSettings) => {
   }
 
   fetch(endpoint, {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'Access-Token': accessToken,

@@ -9,6 +9,7 @@ const EVENT_NAMES_MAP: { [k: string]: string } = {
   'Payment Info Entered': 'AddPaymentInfo',
   'Product Added to Wishlist': 'AddToWishlist',
   'Product Viewed': 'ViewContent',
+  'Product List Viewed': 'ViewContent',
 }
 
 const getContentIdsWithQuantityAndPrice = (payload: any) => {
@@ -41,17 +42,22 @@ const getValue = (payload: any) =>
   payload.value || payload.price || payload.total || payload.revenue
 
 const mapEcommerceData = (event: MCEvent) => {
-  const { payload } = event
+  const { payload: fullPayload } = event
+  const { ecommerce: payload } = fullPayload
 
   const properties: { [k: string]: any } = {}
 
-  properties.currency = payload.currency
+  properties.currency = payload.currency?.toUpperCase()
 
   if (event.name === 'Products Searched') {
     properties.query = payload.query
   }
 
-  if (event.name && ['Product Added', 'Order Completed'].includes(event.name)) {
+  if (event.name === 'Product List Viewed') {
+    properties.content_type = 'product_group'
+  }
+
+  if (event.name && ['Order Completed', 'Product Added'].includes(event.name)) {
     properties.contents = getContentIdsWithQuantityAndPrice(payload).map(
       item => {
         return {
@@ -66,7 +72,11 @@ const mapEcommerceData = (event: MCEvent) => {
 
   if (
     event.name &&
-    ['Product Viewed', 'Product Added to Wishlist'].includes(event.name)
+    [
+      'Product Viewed',
+      'Product Added to Wishlist',
+      'Product List Viewed',
+    ].includes(event.name)
   ) {
     properties.contents = getContentIds(payload).map(id => {
       return {
@@ -86,7 +96,7 @@ const mapEcommerceData = (event: MCEvent) => {
 
 export const getEcommerceRequestBody = async (event: MCEvent) => {
   const ecommerceData = mapEcommerceData(event)
-  const request = getRequestBody(event)
+  const request = await getRequestBody(event)
 
   return {
     ...request,

@@ -24,7 +24,7 @@ const getTtp = (event: MCEvent): string => {
   return ttp
 }
 
-const getRequestBody = (event: MCEvent) => {
+const getRequestBody = async (event: MCEvent) => {
   const { client } = event
 
   const body: { [k: string]: any } = {
@@ -55,6 +55,25 @@ const getRequestBody = (event: MCEvent) => {
     body.context.ad.callback = ttkclid
   } else {
     body.context.ad = undefined
+  }
+
+  const encoder = new TextEncoder()
+  if (body.context.user.phone_number) {
+    const data = encoder.encode(
+      body.context.user.phone_number.trim().toLowerCase()
+    )
+    body.context.user.phone_number = await crypto
+      .createHash('sha256')
+      .update(data)
+      .digest('hex')
+  }
+
+  if (body.context.user.email) {
+    const data = encoder.encode(body.context.user.email.trim().toLowerCase())
+    body.context.user.email = await crypto
+      .createHash('sha256')
+      .update(data)
+      .digest('hex')
   }
 
   return body
