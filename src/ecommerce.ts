@@ -42,9 +42,7 @@ const getValue = (payload: any) =>
   payload.value || payload.price || payload.total || payload.revenue
 
 const mapEcommerceData = (event: MCEvent) => {
-  const { payload: fullPayload } = event
-  const { ecommerce: payload } = fullPayload
-
+  const payload = event.payload?.ecommerce || event.payload
   const properties: { [k: string]: any } = {}
 
   properties.currency = payload.currency?.toUpperCase()
@@ -101,8 +99,6 @@ export const getEcommerceRequestBody = async (event: MCEvent) => {
   return {
     ...request,
     event: EVENT_NAMES_MAP[event.name || ''] || event.name,
-    event_id: String(Math.round(Math.random() * 100000000000000000)),
-    timestamp: new Date().toISOString(),
     properties: ecommerceData,
   }
 }

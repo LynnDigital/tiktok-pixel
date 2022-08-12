@@ -48,6 +48,8 @@ const getRequestBody = async (event: MCEvent) => {
     properties: {
       contents: [],
     },
+    event_id: String(Math.round(Math.random() * 100000000000000000)),
+    timestamp: new Date().toISOString(),
   }
 
   const ttkclid = getClickId(event)
